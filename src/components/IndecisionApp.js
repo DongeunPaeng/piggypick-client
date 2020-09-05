@@ -42,23 +42,26 @@ export default class IndecisionApp extends React.Component {
   };
 
   handleDeleteOption = optionToRemove => {
-    axios({
-      method: "delete",
-      url: "/api/list",
-      data: {
-        name: optionToRemove
-      }
-    })
-      .then(res => {
-        if (res.status === 200) {
-          this.setState(prevState => ({
-            options: prevState.options.filter(
-              option => optionToRemove !== option
-            )
-          }));
+    const confirm = confirm("지우면 영원히 사라져요. 괜찮아요?");
+    if (confirm === true) {
+      axios({
+        method: "delete",
+        url: "/api/list",
+        data: {
+          name: optionToRemove
         }
       })
-      .catch(err => console.log(err));
+        .then(res => {
+          if (res.status === 200) {
+            this.setState(prevState => ({
+              options: prevState.options.filter(
+                option => optionToRemove !== option
+              )
+            }));
+          }
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   handleClearSelectedOption = () => {
