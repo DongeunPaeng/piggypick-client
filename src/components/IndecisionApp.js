@@ -28,7 +28,7 @@ export default class IndecisionApp extends React.Component {
       return "This option already exists";
     }
     axios
-      .post("http://localhost:3000/api/list", {
+      .post("/api/list", {
         name: option
       })
       .then(res => {
@@ -44,7 +44,7 @@ export default class IndecisionApp extends React.Component {
   handleDeleteOption = optionToRemove => {
     axios({
       method: "delete",
-      url: "http://localhost:3000/api/list",
+      url: "/api/list",
       data: {
         name: optionToRemove
       }
@@ -67,7 +67,7 @@ export default class IndecisionApp extends React.Component {
 
   fetchRestaurants = () => {
     axios
-      .get("http://localhost:3000/api/list")
+      .get("/api/list")
       .then(res => {
         const options = res.data.map(data => data.name);
         this.setState(() => ({ options }));
@@ -90,8 +90,8 @@ export default class IndecisionApp extends React.Component {
   }
 
   render() {
-    const title = "Piggy Pick";
-    const subtitle = "Lucky Tasty Daily Date!";
+    const title = "Pig Pick";
+    const subtitle = "Lucky Tasty Daily Pick!";
 
     return (
       <div>
@@ -120,5 +120,5 @@ export default class IndecisionApp extends React.Component {
 }
 
 Header.defaultProps = {
-  title: "Indecision"
+  title: "Pig Pick"
 };
