@@ -1,9 +1,9 @@
 import React from "react";
-import Action from "./Action";
-import AddOption from "./AddOption";
-import Header from "./Header";
-import Options from "./Options";
-import OptionModal from "./OptionModal";
+import Action from "../components/Action";
+import AddOption from "../components/AddOption";
+import Header from "../components/Header";
+import Options from "../components/Options";
+import OptionModal from "../components/OptionModal";
 import axios from "axios";
 
 export default class IndecisionApp extends React.Component {
