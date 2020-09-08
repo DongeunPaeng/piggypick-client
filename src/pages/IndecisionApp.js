@@ -1,15 +1,29 @@
 import React from "react";
-import Action from "./Action";
-import AddOption from "./AddOption";
-import Header from "./Header";
-import Options from "./Options";
-import OptionModal from "./OptionModal";
+import Action from "../components/Action";
+import AddOption from "../components/AddOption";
+import Header from "../components/Header";
+import Options from "../components/Options";
+import OptionModal from "../components/OptionModal";
 import axios from "axios";
 
 export default class IndecisionApp extends React.Component {
   state = {
     options: [],
-    selectedOption: undefined
+    selectedOption: undefined,
+    authenticated: undefined
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const password = e.target.elements.password.value;
+    axios
+      .post("http://localhost:3000/auth", {
+        password
+      })
+      .then(res => {
+        this.setState({ authenticated: res.data });
+      })
+      .catch(err => console.log(err));
   };
 
   handlePick = () => {
@@ -99,24 +113,37 @@ export default class IndecisionApp extends React.Component {
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <div className="container">
-          <Action
-            handlePick={this.handlePick}
-            hasOptions={this.state.options.length > 0}
-          />
-          <div className="widget">
-            <Options
-              options={this.state.options}
-              handleDeleteOptions={this.handleDeleteOptions}
-              handleDeleteOption={this.handleDeleteOption}
+        {this.state.authenticated === "authenticated" ? (
+          <div>
+            <div className="container">
+              <Action
+                handlePick={this.handlePick}
+                hasOptions={this.state.options.length > 0}
+              />
+              <div className="widget">
+                <Options
+                  options={this.state.options}
+                  handleDeleteOptions={this.handleDeleteOptions}
+                  handleDeleteOption={this.handleDeleteOption}
+                />
+                <AddOption handleAddOption={this.handleAddOption} />
+              </div>
+            </div>
+            <OptionModal
+              selectedOption={this.state.selectedOption}
+              handleClearSelectedOption={this.handleClearSelectedOption}
             />
-            <AddOption handleAddOption={this.handleAddOption} />
           </div>
-        </div>
-        <OptionModal
-          selectedOption={this.state.selectedOption}
-          handleClearSelectedOption={this.handleClearSelectedOption}
-        />
+        ) : (
+          <form className="add-option" onSubmit={this.handleSubmit}>
+            <input
+              className="add-option__input"
+              type="password"
+              name="password"
+            />
+            <button className="button">Login</button>
+          </form>
+        )}
       </div>
     );
   }
