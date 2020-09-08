@@ -42,7 +42,7 @@ export default class IndecisionApp extends React.Component {
   };
 
   handleDeleteOption = optionToRemove => {
-    const confirm = confirm("지우면 영원히 사라져요. 괜찮아요?");
+    const confirm = window.confirm("지우면 영원히 사라져요. 괜찮아요?");
     if (confirm === true) {
       axios({
         method: "delete",
