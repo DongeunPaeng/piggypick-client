@@ -17,7 +17,7 @@ export default class IndecisionApp extends React.Component {
     e.preventDefault();
     const password = e.target.elements.password.value;
     axios
-      .post("http://localhost:3000/auth", {
+      .post("/auth", {
         password
       })
       .then(res => {
