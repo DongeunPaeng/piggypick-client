@@ -22,14 +22,16 @@
   border-bottom: 0.3rem solid darken($purple, 10%);
   color: white;
   font-weight: 500;
-  paddding: $s-size;
+  padding: $s-size;
 }
 
-.button--link {
+.button--link,
+.button--logging {
   background: none;
   border: none;
   color: white;
   padding: 0;
+  font-size: $m-size;
 }
 
 @media (min-width: $desktop-breakpoint) {

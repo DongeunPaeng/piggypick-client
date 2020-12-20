@@ -6,11 +6,12 @@ import Options from "../components/Options";
 import OptionModal from "../components/OptionModal";
 import axios from "axios";
 
-export default class IndecisionApp extends React.Component {
+export default class ItemList extends React.Component {
+
   state = {
     options: [],
-    selectedOption: undefined,
-    authenticated: undefined
+    selectedOption: undefined
+    // authenticated: undefined
   };
 
   handleSubmit = e => {
@@ -107,13 +108,13 @@ export default class IndecisionApp extends React.Component {
   }
 
   render() {
-    const title = "Pig Pick";
-    const subtitle = "Lucky Tasty Daily Pick!";
+    const title = "어디 갈까?";
+    const subtitle = "선택장애 한 방에 해결하기";
 
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        {this.state.authenticated === "authenticated" ? (
+        {true ? (
           <div>
             <div className="container">
               <Action
@@ -135,14 +136,9 @@ export default class IndecisionApp extends React.Component {
             />
           </div>
         ) : (
-          <form className="add-option" onSubmit={this.handleSubmit}>
-            <input
-              className="add-option__input"
-              type="password"
-              name="password"
-            />
-            <button className="button">Login</button>
-          </form>
+          <div className="container">
+            <p className="welcome">Get in!</p>
+          </div>
         )}
       </div>
     );
@@ -150,5 +146,5 @@ export default class IndecisionApp extends React.Component {
 }
 
 Header.defaultProps = {
-  title: "Pig Pick"
+  title: "어디 갈까?"
 };

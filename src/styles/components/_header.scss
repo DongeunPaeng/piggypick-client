@@ -5,6 +5,13 @@
   padding: $m-size 0;
 }
 
+.header__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 // BEM block element modifier convention
 .header__title {
   font-size: $l-size;
