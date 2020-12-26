@@ -2,13 +2,28 @@
   color: white;
   font-style: italic;
   margin: $m-size 0 0 0;
-  padding: 0 $m-size;
+  padding: $s-size $m-size 0 $m-size;
 }
 
 .add-option {
   display: flex;
   flex-direction: column;
   padding: $m-size;
+}
+
+.add-option__div {
+  color: white;
+  @media (max-width: $desktop-breakpoint) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    label {
+      margin-right: $s-size;
+    }
+    button {
+      width: 100%;
+    }
+  }
 }
 
 .add-option__input {
@@ -18,7 +33,6 @@
   border-bottom: 0.3rem solid darken($dark-blue, 10%);
   flex-grow: 1;
   margin: 0 0 $s-size 0;
-  // margin-right: $s-size;
   padding: $s-size;
 }
 

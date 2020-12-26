@@ -4,6 +4,7 @@ import Teams from "../components/Teams";
 import JoinModal from "../components/JoinModal";
 import axios from "axios";
 import { history } from "../routers/AppRouter";
+import AddTeam from "../components/AddTeam";
 
 export default class TeamListPage extends React.Component {
   state = {
@@ -51,6 +52,31 @@ export default class TeamListPage extends React.Component {
     this.setState(() => ({ modalOpen: undefined }));
   };
 
+  // TODO: modify
+  handleAddTeam = (option, password) => {
+    const index = this.state.teams.findIndex(team => {
+      return team.name === option;
+    });
+    if (!option || !password) {
+      return "Enter valid value to add item";
+    } else if (index > -1) {
+      return "This team already exists";
+    }
+    axios
+      .post("/api/teams/make", {
+        password,
+        name: option
+      })
+      .then(res => {
+        if (res.status === 200) {
+          this.setState(prevState => ({
+            teams: prevState.teams.concat(option)
+          }));
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
   fetchTeams = () => {
     axios
       .get("api/teams")
@@ -80,6 +106,7 @@ export default class TeamListPage extends React.Component {
         <Header title={title} subtitle={subtitle} />
         <div className="container">
           <div className="widget">
+            <AddTeam handleAddTeam={this.handleAddTeam} />
             <Teams teams={this.state.teams} handleJoin={this.handleJoin} />
           </div>
         </div>
