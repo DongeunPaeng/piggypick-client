@@ -7,24 +7,13 @@ import OptionModal from "../components/OptionModal";
 import axios from "axios";
 
 export default class ItemList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
   state = {
     options: [],
     selectedOption: undefined
-    // authenticated: undefined
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const password = e.target.elements.password.value;
-    axios
-      .post("/auth", {
-        password
-      })
-      .then(res => {
-        this.setState({ authenticated: res.data });
-      })
-      .catch(err => console.log(err));
   };
 
   handlePick = () => {
@@ -43,7 +32,7 @@ export default class ItemList extends React.Component {
       return "This option already exists";
     }
     axios
-      .post("/api/list", {
+      .post("/api/items", {
         name: option
       })
       .then(res => {
@@ -61,7 +50,7 @@ export default class ItemList extends React.Component {
     if (confirm === true) {
       axios({
         method: "delete",
-        url: "/api/list",
+        url: "/api/items",
         data: {
           name: optionToRemove
         }
@@ -84,8 +73,9 @@ export default class ItemList extends React.Component {
   };
 
   fetchRestaurants = () => {
+    const { id } = this.props.match.params;
     axios
-      .get("/api/list")
+      .get(`/api/items/${id}`) // teamId comes from <AppRouter />
       .then(res => {
         const options = res.data.map(data => data.name);
         this.setState(() => ({ options }));
@@ -103,10 +93,6 @@ export default class ItemList extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    console.log("componentWillUnmount");
-  }
-
   render() {
     const title = "어디 갈까?";
     const subtitle = "선택장애 한 방에 해결하기";
@@ -114,32 +100,26 @@ export default class ItemList extends React.Component {
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        {true ? (
-          <div>
-            <div className="container">
-              <Action
-                handlePick={this.handlePick}
-                hasOptions={this.state.options.length > 0}
-              />
-              <div className="widget">
-                <AddOption handleAddOption={this.handleAddOption} />
-                <Options
-                  options={this.state.options}
-                  handleDeleteOptions={this.handleDeleteOptions}
-                  handleDeleteOption={this.handleDeleteOption}
-                />
-              </div>
-            </div>
-            <OptionModal
-              selectedOption={this.state.selectedOption}
-              handleClearSelectedOption={this.handleClearSelectedOption}
-            />
-          </div>
-        ) : (
+        <div>
           <div className="container">
-            <p className="welcome">Get in!</p>
+            <Action
+              handlePick={this.handlePick}
+              hasOptions={this.state.options.length > 0}
+            />
+            <div className="widget">
+              <AddOption handleAddOption={this.handleAddOption} />
+              <Options
+                options={this.state.options}
+                handleDeleteOptions={this.handleDeleteOptions}
+                handleDeleteOption={this.handleDeleteOption}
+              />
+            </div>
           </div>
-        )}
+          <OptionModal
+            selectedOption={this.state.selectedOption}
+            handleClearSelectedOption={this.handleClearSelectedOption}
+          />
+        </div>
       </div>
     );
   }

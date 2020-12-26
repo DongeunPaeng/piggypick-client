@@ -7,7 +7,7 @@ const Action = props => (
       onClick={props.handlePick}
       disabled={!props.hasOptions}
     >
-      어디 갈까?
+      랜덤 추천!
     </button>
   </div>
 );
