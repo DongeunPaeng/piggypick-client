@@ -8,8 +8,8 @@ const Header = ({ email, title, subtitle, startLogout }) => (
     <div className="container">
       <div className="header__content">
         <div>
-          <Link to="/teams">
-            <h1 className="header__title">{title}</h1>
+          <Link className="header__title" to="/teams">
+            <h1>{title}</h1>
           </Link>
           {subtitle && <h2 className="header__subtitle">{subtitle}</h2>}
         </div>
