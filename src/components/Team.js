@@ -33,7 +33,7 @@ const Team = ({ count, teamId, optionText, handleJoin, uid }) => {
         <button
           className="button button--link"
           onClick={() => {
-            handleJoin(teamId);
+            handleJoin(teamId, uid);
           }}
         >
           Join

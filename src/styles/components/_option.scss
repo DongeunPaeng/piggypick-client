@@ -12,3 +12,9 @@
   margin: 0;
   word-wrap: break-word;
 }
+
+.option__text--author {
+  @extend .option__text;
+  font-size: $m-size;
+  color: #64d1ff;
+}

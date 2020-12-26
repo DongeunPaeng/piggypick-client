@@ -5,15 +5,18 @@ import Header from "../components/Header";
 import Options from "../components/Options";
 import OptionModal from "../components/OptionModal";
 import axios from "axios";
+import { history } from "../routers/AppRouter";
+import { connect } from "react-redux";
 
-export default class ItemList extends React.Component {
+export class ItemList extends React.Component {
   constructor(props) {
     super(props);
   }
 
   state = {
     options: [],
-    selectedOption: undefined
+    selectedOption: undefined,
+    authChecked: false
   };
 
   handlePick = () => {
@@ -25,7 +28,7 @@ export default class ItemList extends React.Component {
     }));
   };
 
-  handleAddOption = option => {
+  handleAddOption = (option, teamId) => {
     if (!option) {
       return "Enter valid value to add item";
     } else if (this.state.options.indexOf(option) > -1) {
@@ -33,7 +36,9 @@ export default class ItemList extends React.Component {
     }
     axios
       .post("/api/items", {
-        name: option
+        uid: this.props.uid,
+        name: option,
+        teamId
       })
       .then(res => {
         if (res.status === 200) {
@@ -45,6 +50,7 @@ export default class ItemList extends React.Component {
       .catch(err => console.log(err));
   };
 
+  // TODO: need to modify according to the new roles in DB...
   handleDeleteOption = optionToRemove => {
     const confirm = window.confirm("지우면 영원히 사라져요. 괜찮아요?");
     if (confirm === true) {
@@ -72,19 +78,38 @@ export default class ItemList extends React.Component {
     this.setState(() => ({ selectedOption: undefined }));
   };
 
+  authCheck = () => {
+    const teamId = window.location.pathname.split("/")[2];
+    axios
+      .get(`/api/users/${teamId}-split-${this.props.uid}`)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState(() => ({ authChecked: true }));
+        }
+      })
+      .catch(err => {
+        history.push("/teams");
+        console.log(err);
+      });
+  };
+
   fetchRestaurants = () => {
     const { id } = this.props.match.params;
     axios
-      .get(`/api/items/${id}`) // teamId comes from <AppRouter />
+      .get(`/api/items/${id}`)
       .then(res => {
-        const options = res.data.map(data => data.name);
+        const options = res.data;
         this.setState(() => ({ options }));
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        history.push("/teams");
+        console.log(err);
+      });
   };
 
   componentDidMount() {
     this.fetchRestaurants();
+    this.authCheck();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -100,25 +125,27 @@ export default class ItemList extends React.Component {
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <div>
-          <div className="container">
-            <Action
-              handlePick={this.handlePick}
-              hasOptions={this.state.options.length > 0}
-            />
-            <div className="widget">
-              <AddOption handleAddOption={this.handleAddOption} />
-              <Options
-                options={this.state.options}
-                handleDeleteOptions={this.handleDeleteOptions}
-                handleDeleteOption={this.handleDeleteOption}
+        <div className="container">
+          {this.state.authChecked && (
+            <div>
+              <Action
+                handlePick={this.handlePick}
+                hasOptions={this.state.options.length > 0}
+              />
+              <div className="widget">
+                <AddOption handleAddOption={this.handleAddOption} />
+                <Options
+                  options={this.state.options}
+                  handleDeleteOptions={this.handleDeleteOptions}
+                  handleDeleteOption={this.handleDeleteOption}
+                />
+              </div>
+              <OptionModal
+                selectedOption={this.state.selectedOption}
+                handleClearSelectedOption={this.handleClearSelectedOption}
               />
             </div>
-          </div>
-          <OptionModal
-            selectedOption={this.state.selectedOption}
-            handleClearSelectedOption={this.handleClearSelectedOption}
-          />
+          )}
         </div>
       </div>
     );
@@ -128,3 +155,9 @@ export default class ItemList extends React.Component {
 Header.defaultProps = {
   title: "어디 갈까?"
 };
+
+const mapStateToProps = state => ({
+  uid: state.auth.uid
+});
+
+export default connect(mapStateToProps)(ItemList);

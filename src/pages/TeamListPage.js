@@ -1,32 +1,54 @@
 import React from "react";
 import Header from "../components/Header";
 import Teams from "../components/Teams";
+import JoinModal from "../components/JoinModal";
 import axios from "axios";
 import { history } from "../routers/AppRouter";
 
 export default class TeamListPage extends React.Component {
   state = {
     teams: [],
-    selectedTeam: undefined
+    targetTeam: "",
+    modalOpen: undefined,
+    uid: undefined
   };
 
-  handleJoin = teamId => {
-    const confirm = window.confirm("Would you join?");
-    if (confirm === true) {
+  handleJoin = (teamId, uid) => {
+    this.setState(() => ({
+      modalOpen: true,
+      targetTeam: teamId,
+      uid
+    }));
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const password = e.target.elements.password.value;
+    const teamId = this.state.targetTeam;
+    const uid = this.state.uid;
+
+    if (true) {
       axios({
         method: "post",
         url: "api/teams",
         data: {
-          id: teamId
-          // user's id needed here...
+          id: teamId,
+          password,
+          uid
         }
-      }).then(res => {
-        if (res.status === 200) {
-          console.log("join complete!");
-          history.push(`/items/${teamId}`);
-        }
-      });
+      })
+        .then(res => {
+          if (res.status === 200) {
+            console.log("join complete!");
+            history.push(`/items/${teamId}`);
+          }
+        })
+        .catch(err => {
+          alert("wrong password!");
+          console.log(err);
+        });
     }
+    this.setState(() => ({ modalOpen: undefined }));
   };
 
   fetchTeams = () => {
@@ -61,6 +83,10 @@ export default class TeamListPage extends React.Component {
             <Teams teams={this.state.teams} handleJoin={this.handleJoin} />
           </div>
         </div>
+        <JoinModal
+          modalOpen={this.state.modalOpen}
+          onSubmit={this.handleSubmit}
+        />
       </div>
     );
   }

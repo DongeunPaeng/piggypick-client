@@ -14,6 +14,8 @@
 
 // BEM block element modifier convention
 .header__title {
+  color: white;
+  text-decoration: none;
   font-size: $l-size;
   margin: 0;
 }

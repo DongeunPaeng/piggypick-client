@@ -12,8 +12,10 @@ const Options = props => (
     {props.options.map((option, index) => (
       <Option
         handleDeleteOption={props.handleDeleteOption}
-        key={option}
-        optionText={option}
+        key={option.id}
+        optionId={option.id}
+        author={option.email}
+        optionText={option.name}
         count={index + 1}
       />
     ))}
