@@ -10,6 +10,12 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: $desktop-breakpoint) {
+    p {
+      display: none;
+    }
+  }
 }
 
 // BEM block element modifier convention
