@@ -13,16 +13,14 @@
 
 .add-option__div {
   color: white;
-  @media (max-width: $desktop-breakpoint) {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    label {
-      margin-right: $s-size;
-    }
-    button {
-      width: 100%;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  label {
+    margin-right: $s-size;
+  }
+  button {
+    width: 100%;
   }
 }
 
@@ -39,6 +37,16 @@
 @media (min-width: $desktop-breakpoint) {
   .add-option {
     flex-direction: row;
+    justify-content: center;
+  }
+
+  .add-option__div {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    label {
+      margin-bottom: $s-size;
+    }
   }
 
   .add-option__input {
