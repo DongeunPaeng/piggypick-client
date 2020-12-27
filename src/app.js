@@ -29,18 +29,16 @@ const renderApp = () => {
 
 ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
-firebase.auth().onAuthStateChanged(
-  setTimeout(user => {
-    if (user) {
-      store.dispatch(login(user.uid, user.email));
-      renderApp();
-      if (history.location.pathname === "/") {
-        history.push("/teams");
-      }
-    } else {
-      store.dispatch(logout());
-      renderApp();
-      history.push("/");
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    store.dispatch(login(user.uid, user.email));
+    renderApp();
+    if (history.location.pathname === "/") {
+      history.push("/teams");
     }
-  }, 1500)
-);
+  } else {
+    store.dispatch(logout());
+    renderApp();
+    history.push("/");
+  }
+});

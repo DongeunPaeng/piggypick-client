@@ -6,12 +6,12 @@ import axios from "axios";
 const Team = ({ count, teamId, optionText, handleJoin, uid }) => {
   const [teams, setTeams] = useState([]);
 
-  const fetchUsersTeams = () => {
+  const fetchUsersTeams = setTimeout(() => {
     axios.get(`/api/users/${uid}/teams`).then(res => {
       const fetchedTeams = res.data.map(data => data.team_id);
       setTeams(fetchedTeams);
     });
-  };
+  }, 1000);
 
   useEffect(() => {
     fetchUsersTeams();
