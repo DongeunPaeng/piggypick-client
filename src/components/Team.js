@@ -7,11 +7,14 @@ const Team = ({ count, teamId, optionText, handleJoin, uid }) => {
   const [teams, setTeams] = useState([]);
 
   const fetchUsersTeams = () => {
-    console.log('fetchUsersTeams doing')
-    axios.get(`/api/users/${uid}/teams`).then(res => {
-      const fetchedTeams = res.data.map(data => data.team_id);
-      setTeams(fetchedTeams);
-    });
+    if (uid === undefined) {
+      window.setTimeout(fetchUserTeams, 100);
+    } else {
+      axios.get(`/api/users/${uid}/teams`).then(res => {
+        const fetchedTeams = res.data.map(data => data.team_id);
+        setTeams(fetchedTeams);
+      });
+    }
   };
 
   useEffect(() => {

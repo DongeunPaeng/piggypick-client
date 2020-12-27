@@ -40,7 +40,6 @@ export default class TeamListPage extends React.Component {
       })
         .then(res => {
           if (res.status === 200) {
-            console.log("join complete!");
             history.push(`/items/${teamId}`);
           }
         })

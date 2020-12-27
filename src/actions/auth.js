@@ -13,7 +13,6 @@ export const startLogin = () => {
       .auth()
       .signInWithPopup(googleAuthProvider)
       .then(result => {
-        console.log("google auth done");
         const {
           user: { uid, email }
         } = result;
@@ -25,9 +24,8 @@ export const startLogin = () => {
             email
           }
         }).then(res => {
-          console.log("axios done");
           if (res.status === 200) {
-            console.log("user has been registered successfully.");
+            console.log('Welcome!')
           }
         });
       });
