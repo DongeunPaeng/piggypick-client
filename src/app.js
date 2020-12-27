@@ -31,14 +31,17 @@ ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
+    console.log('if user checked')
     store.dispatch(login(user.uid, user.email));
     renderApp();
     if (history.location.pathname === "/") {
+      console.log('about to push /teams')
       history.push("/teams");
     }
   } else {
     store.dispatch(logout());
     renderApp();
+      console.log('about to push /')
     history.push("/");
   }
 });
