@@ -119,7 +119,7 @@ export class ItemList extends React.Component {
   }
 
   render() {
-    const title = "어디 갈까?";
+    const title = "무엇을 고를까?";
     const subtitle = "선택장애 한 방에 해결하기";
 
     return (
@@ -153,7 +153,7 @@ export class ItemList extends React.Component {
 }
 
 Header.defaultProps = {
-  title: "어디 갈까?"
+  title: "무엇을 고를까?"
 };
 
 const mapStateToProps = state => ({

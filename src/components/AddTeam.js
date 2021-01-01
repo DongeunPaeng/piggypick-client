@@ -5,9 +5,9 @@ export default class AddTeam extends React.Component {
     super(props);
   }
   state = {
-    error: undefined
+    error: undefined,
   };
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     const option = e.target.elements.option.value.trim();
     const password = e.target.elements.password.value;
@@ -21,6 +21,9 @@ export default class AddTeam extends React.Component {
   render() {
     return (
       <div>
+        <div className="widget-header">
+          <h3 className="widget-header__title">직접 모음집을 추가해보세요!</h3>
+        </div>
         {this.state.error && (
           <p className="add-option-error">{this.state.error}</p>
         )}

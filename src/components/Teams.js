@@ -4,10 +4,10 @@ import Team from "./Team";
 const Teams = props => (
   <div>
     <div className="widget-header">
-      <h3 className="widget-header__title">Teams</h3>
+      <h3 className="widget-header__title">모음집</h3>
     </div>
     {props.teams.length === 0 && (
-      <p className="widget-message">No team for you...</p>
+      <p className="widget-message">아직 소속된 모음이 없군요...!</p>
     )}
     {props.teams.map((team, index) => (
       <Team
