@@ -24,7 +24,7 @@ export default class TeamListPage extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const password = e.target.elements.password.value;
+    const password = e.target.elements?.password.value;
     const teamId = this.state.targetTeam;
     const uid = this.state.uid;
 
