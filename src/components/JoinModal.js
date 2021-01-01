@@ -9,8 +9,9 @@ const JoinModal = props => (
     closeTimeoutMS={300}
     className="modal"
   >
-    <h3 className="modal__title">Join the Team</h3>
+    <h3 className="modal__title">모임 참여하기!</h3>
     <p className="modal__body">PASSWORD</p>
+    <p className="modal__body">문의: dongeun.paeng@gmail.com</p>
     <form className="add-option" onSubmit={props.onSubmit}>
       <input className="add-option__input" type="password" name="password" />
       <button className="button" >
